@@ -17,6 +17,19 @@ const Navbar = () => {
     setServicesOpen(false);
   };
 
+  // Handle services dropdown toggle with proper event handling
+  const handleServiceToggle = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setServicesOpen(!servicesOpen);
+  };
+
+  // Handle menu item clicks
+  const handleMenuItemClick = () => {
+    setServicesOpen(false);
+    closeMenu();
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -68,6 +81,13 @@ const Navbar = () => {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, [isOpen]);
+
+  // Reset services dropdown when menu closes
+  useEffect(() => {
+    if (!isOpen) {
+      setServicesOpen(false);
+    }
   }, [isOpen]);
 
   const menuVariants = {
@@ -267,7 +287,7 @@ const Navbar = () => {
                   <motion.div variants={itemVariants}>
                     <NavLink 
                       to="/" 
-                      onClick={closeMenu}
+                      onClick={handleMenuItemClick}
                       className={({ isActive }) => `block py-3 px-3 rounded-md text-base sm:text-lg transition-colors ${
                         isActive 
                           ? 'text-primary font-semibold bg-primary-50' 
@@ -280,7 +300,7 @@ const Navbar = () => {
                   <motion.div variants={itemVariants}>
                     <NavLink 
                       to="/about" 
-                      onClick={closeMenu}
+                      onClick={handleMenuItemClick}
                       className={({ isActive }) => `block py-3 px-3 rounded-md text-base sm:text-lg transition-colors ${
                         isActive 
                           ? 'text-primary font-semibold bg-primary-50' 
@@ -293,9 +313,10 @@ const Navbar = () => {
                   <motion.div variants={itemVariants}>
                     <div>
                       <button 
-                        onClick={() => setServicesOpen(!servicesOpen)}
-                        className="flex items-center justify-between w-full py-3 px-3 text-left text-base sm:text-lg text-gray-800 hover:text-primary hover:bg-gray-50 rounded-md transition-colors"
+                        onClick={handleServiceToggle}
+                        className="flex items-center justify-between w-full py-3 px-3 text-left text-base sm:text-lg text-gray-800 hover:text-primary hover:bg-gray-50 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
                         aria-expanded={servicesOpen}
+                        type="button"
                       >
                         <span>Services</span>
                         <ChevronDown className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} />
@@ -307,37 +328,39 @@ const Navbar = () => {
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="pl-4 sm:pl-6 overflow-hidden"
+                            transition={{ duration: 0.2, ease: "easeInOut" }}
+                            className="overflow-hidden"
                           >
-                            <Link 
-                              to="/services#face" 
-                              onClick={closeMenu}
-                              className="block py-2 px-3 text-sm sm:text-base text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md transition-colors"
-                            >
-                              Face Treatments
-                            </Link>
-                            <Link 
-                              to="/services#hair" 
-                              onClick={closeMenu}
-                              className="block py-2 px-3 text-sm sm:text-base text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md transition-colors"
-                            >
-                              Hair Treatments
-                            </Link>
-                            <Link 
-                              to="/services#gynec" 
-                              onClick={closeMenu}
-                              className="block py-2 px-3 text-sm sm:text-base text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md transition-colors"
-                            >
-                              Gynecological Treatments
-                            </Link>
-                            <Link 
-                              to="/services#skin" 
-                              onClick={closeMenu}
-                              className="block py-2 px-3 text-sm sm:text-base text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md transition-colors"
-                            >
-                              Skin Treatments
-                            </Link>
+                            <div className="pl-4 sm:pl-6 pt-1 pb-2">
+                              <Link 
+                                to="/services#face" 
+                                onClick={handleMenuItemClick}
+                                className="block py-2 px-3 text-sm sm:text-base text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md transition-colors"
+                              >
+                                Face Treatments
+                              </Link>
+                              <Link 
+                                to="/services#hair" 
+                                onClick={handleMenuItemClick}
+                                className="block py-2 px-3 text-sm sm:text-base text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md transition-colors"
+                              >
+                                Hair Treatments
+                              </Link>
+                              <Link 
+                                to="/services#gynec" 
+                                onClick={handleMenuItemClick}
+                                className="block py-2 px-3 text-sm sm:text-base text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md transition-colors"
+                              >
+                                Gynecological Treatments
+                              </Link>
+                              <Link 
+                                to="/services#skin" 
+                                onClick={handleMenuItemClick}
+                                className="block py-2 px-3 text-sm sm:text-base text-gray-600 hover:text-primary hover:bg-gray-50 rounded-md transition-colors"
+                              >
+                                Skin Treatments
+                              </Link>
+                            </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -346,7 +369,7 @@ const Navbar = () => {
                   <motion.div variants={itemVariants}>
                     <NavLink 
                       to="/gallery" 
-                      onClick={closeMenu}
+                      onClick={handleMenuItemClick}
                       className={({ isActive }) => `block py-3 px-3 rounded-md text-base sm:text-lg transition-colors ${
                         isActive 
                           ? 'text-primary font-semibold bg-primary-50' 
@@ -359,7 +382,7 @@ const Navbar = () => {
                   <motion.div variants={itemVariants}>
                     <NavLink 
                       to="/contact" 
-                      onClick={closeMenu}
+                      onClick={handleMenuItemClick}
                       className={({ isActive }) => `block py-3 px-3 rounded-md text-base sm:text-lg transition-colors ${
                         isActive 
                           ? 'text-primary font-semibold bg-primary-50' 
@@ -372,7 +395,7 @@ const Navbar = () => {
                   <motion.div variants={itemVariants}>
                     <Link 
                       to="/contact" 
-                      onClick={closeMenu}
+                      onClick={handleMenuItemClick}
                       className="btn-primary block text-center mt-4 py-3 px-4 bg-primary text-white hover:bg-primary-600 rounded-md transition-colors text-base sm:text-lg font-medium"
                     >
                       Book Appointment
