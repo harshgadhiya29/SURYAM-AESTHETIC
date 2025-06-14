@@ -22,7 +22,7 @@ const Services = () => {
     {
       icon: <Zap size={24} />,
       title: "Laser Treatments",
-      description: "Experience the latest in laser technology for hair removal, skin tightening, and other aesthetic enhancements.",
+      description: "Experience the latest in laser technology for hair removal, skin tightening, and other aesthetic enhancements for Laser Treatments.",
       link: "/services#laser"
     },
     {
